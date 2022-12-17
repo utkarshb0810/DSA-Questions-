@@ -1,0 +1,22 @@
+int mod=1e9+7;
+	int solve(int arr[],int idx,int n,int sum,vector<vector<int>> &dp){
+	    if(idx == n && sum == 0){
+	        return 1;
+	    }
+	    if(idx == n || sum<0){
+	        return 0;
+	    }
+	    if(sum == 0 && arr[idx] == 0){
+	        return 2;
+	    }
+	    if(dp[idx][sum]!=-1){
+	        return dp[idx][sum]%mod;
+	    }
+	    int Take = solve(arr,idx+1,n,sum-arr[idx],dp);
+	    int notTake = solve(arr,idx+1,n,sum,dp);
+	    return dp[idx][sum] = (notTake % mod + Take % mod) % mod;
+	}
+	int perfectSum(int arr[], int n, int sum){
+        vector<vector<int>> dp(n+1,vector<int> (sum+1,-1));
+        return solve(arr,0,n,sum,dp);
+	}
